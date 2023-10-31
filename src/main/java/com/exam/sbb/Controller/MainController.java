@@ -3,6 +3,9 @@ package com.exam.sbb.Controller;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -55,7 +58,17 @@ public class MainController {
   @GetMapping("/plus")
   @ResponseBody
   public int showPlus(int a, int b) {
-    return a+b;
+    return a + b;
+  }
+
+  @GetMapping("/plus2") //jsp
+  @ResponseBody
+  public void showPlus2(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+    int a = Integer.parseInt(req.getParameter("a"));
+    int b = Integer.parseInt(req.getParameter("b"));
+
+    resp.getWriter().append(a + b + "");
+
   }
 
   @GetMapping("/minus")
@@ -95,6 +108,18 @@ public class MainController {
     return IntStream.rangeClosed(1, limit)
         .mapToObj(i -> "%d * %d = %d".formatted(finalDan, i, finalDan *i))
         .collect(Collectors.joining("<br>\n")); //br을 기준으로 합쳐줌.
+  }
+
+  @GetMapping("/mbti/{name}") // ?를 안쓰고 @PathVariable name 값이 중괄호name에 들어옴.
+  @ResponseBody
+  public String mbti(@PathVariable String name) {
+    return switch (name) {
+      case "홍길동" -> "INFP";
+      case "홍길순" -> "ENFP";
+      case "임꺽정" -> "ESFJ";
+      case "김명현" -> "INFJ";
+      default -> "모름";
+    };
   }
 
 }
