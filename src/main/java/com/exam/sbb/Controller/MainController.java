@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.*;
 
 @Controller //스프링부트로 사용하기 위해 필수 작성
 public class MainController {
+  public int increaseNo = -1;
   @RequestMapping("/sbb")
   // 이렇게 접속이 되면
   // 아래 함수의 리턴값을 그대로 브라우저에 표시
@@ -46,5 +47,24 @@ public class MainController {
         <h1>안녕하세요. GET 방식으로 오신것을 환영합니다.</h1>
           
         """.formatted(age);
+  }
+
+  @GetMapping("/plus")
+  @ResponseBody
+  public int showPlus(int a, int b) {
+    return a+b;
+  }
+
+  @GetMapping("/minus")
+  @ResponseBody
+  public int showMinus(int a, int b) {
+    return a-b;
+  }
+
+  @GetMapping("/increase")
+  @ResponseBody
+  public int showIncrease() {
+    increaseNo++;
+    return increaseNo;
   }
 }
