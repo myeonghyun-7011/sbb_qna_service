@@ -3,6 +3,9 @@ package com.exam.sbb.Controller;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
+
 @Controller //스프링부트로 사용하기 위해 필수 작성
 public class MainController {
   public int increaseNo = -1;
@@ -67,4 +70,31 @@ public class MainController {
     increaseNo++;
     return increaseNo;
   }
+
+  @GetMapping("/gugudan")
+  @ResponseBody
+  public String showGugudan(int dan, int limit) {
+    String rs = "" ;
+    for(int i = 1; i <= limit; i++) {
+      rs += "%d * %d = %d <br>\n".formatted(dan, i, dan * i);
+    }
+    return rs;
+  }
+  @GetMapping("/gugudan1")
+  @ResponseBody
+  public String showGugudan1(Integer dan, Integer limit) {//int = null을 허용x / integer= null 허용
+    if(dan == null) {
+      dan = 9;
+    }
+
+    if(limit == null) {
+      limit = 9;
+    }
+
+    final Integer finalDan = dan;
+    return IntStream.rangeClosed(1, limit)
+        .mapToObj(i -> "%d * %d = %d".formatted(finalDan, i, finalDan *i))
+        .collect(Collectors.joining("<br>\n")); //br을 기준으로 합쳐줌.
+  }
+
 }
