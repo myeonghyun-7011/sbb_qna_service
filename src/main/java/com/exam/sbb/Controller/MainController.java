@@ -1,6 +1,7 @@
 package com.exam.sbb.Controller;
 
 import lombok.AllArgsConstructor;
+import lombok.Getter;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -127,7 +128,6 @@ public class MainController {
       default -> "모름";
     };
   }
-
   @GetMapping("/saveSessionAge/{name}/{value}")
   @ResponseBody
   public String showSaveSessionAge(@PathVariable String name, @PathVariable String value, HttpServletRequest req) {
@@ -151,16 +151,21 @@ public class MainController {
   @GetMapping("/addArticle")
   @ResponseBody
   public String addArticle(String title, String body) {
-    int id = 1;
-    Article article = new Article(id, title, body);
-
-    return "%d번 게시물이 생성되었습니다.".formatted(id);
+    Article article = new Article(title, body);
+    return "%d번 게시물이 생성되었습니다.".formatted(article.getId());
   }
   @AllArgsConstructor
   private class Article {
+    private static int lastId = 0;
+
+    @Getter
     private int id;
     private String title;
     private String body;
+
+    public Article(String title, String body) {
+      this(++lastId, title, body);
+    }
   }
 
 
