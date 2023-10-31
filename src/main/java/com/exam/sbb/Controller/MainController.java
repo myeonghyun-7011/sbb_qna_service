@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -12,6 +13,7 @@ import java.util.stream.IntStream;
 @Controller //스프링부트로 사용하기 위해 필수 작성
 public class MainController {
   public int increaseNo = -1;
+
   @RequestMapping("/sbb")
   // 이렇게 접속이 되면
   // 아래 함수의 리턴값을 그대로 브라우저에 표시
@@ -74,7 +76,7 @@ public class MainController {
   @GetMapping("/minus")
   @ResponseBody
   public int showMinus(int a, int b) {
-    return a-b;
+    return a - b;
   }
 
   @GetMapping("/increase")
@@ -87,26 +89,27 @@ public class MainController {
   @GetMapping("/gugudan")
   @ResponseBody
   public String showGugudan(int dan, int limit) {
-    String rs = "" ;
-    for(int i = 1; i <= limit; i++) {
+    String rs = "";
+    for (int i = 1; i <= limit; i++) {
       rs += "%d * %d = %d <br>\n".formatted(dan, i, dan * i);
     }
     return rs;
   }
+
   @GetMapping("/gugudan1")
   @ResponseBody
   public String showGugudan1(Integer dan, Integer limit) {//int = null을 허용x / integer= null 허용
-    if(dan == null) {
+    if (dan == null) {
       dan = 9;
     }
 
-    if(limit == null) {
+    if (limit == null) {
       limit = 9;
     }
 
     final Integer finalDan = dan;
     return IntStream.rangeClosed(1, limit)
-        .mapToObj(i -> "%d * %d = %d".formatted(finalDan, i, finalDan *i))
+        .mapToObj(i -> "%d * %d = %d".formatted(finalDan, i, finalDan * i))
         .collect(Collectors.joining("<br>\n")); //br을 기준으로 합쳐줌.
   }
 
@@ -116,12 +119,32 @@ public class MainController {
     return switch (name) {
       case "홍길순" -> {
         char j = 'J';
-        yield  "INF" + j;
+        yield "INF" + j;
       }
       case "임꺽정" -> "ESFJ";
-      case "홍길동" , "김명현" -> "INFP";
+      case "홍길동", "김명현" -> "INFP";
       default -> "모름";
     };
+  }
+
+  @GetMapping("/saveSessionAge/{name}/{value}")
+  @ResponseBody
+  public String showSaveSessionAge(@PathVariable String name, @PathVariable String value, HttpServletRequest req) {
+    HttpSession session = req.getSession();
+    session.setAttribute(name, value);
+
+    return "세션변수 %s의 값이 %s로 설정되었습니다.".formatted(name, value);
+  }
+
+  @GetMapping("/getSessionAge/{name}")
+  @ResponseBody
+  public String getSessionAge(@PathVariable String name, HttpSession session) {
+    // req에 쿠기가 들어있음. 쿠키 : 키,값으로 구성.
+    // req => 쿠기 => JSESSION => 세션을 얻을 수있다.
+
+    String value = (String) session.getAttribute(name);
+
+    return "세션변수 %s의 값은 %s입니다.".formatted(name, value);
   }
 
 }
