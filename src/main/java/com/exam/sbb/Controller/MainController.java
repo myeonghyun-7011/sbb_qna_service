@@ -178,6 +178,7 @@ public class MainController {
         .filter(a -> a.getId() == id)
         .findFirst()
         .orElse(null); //반복문
+    
 
     return article;
   }
@@ -213,6 +214,22 @@ public class MainController {
 
     return "%d번 게시물이 수정되었습니다.".formatted(article.getId());
   }
+  @GetMapping("/deleteArtice/{id}")
+  @ResponseBody
+  public String deleteArtice(@PathVariable int id) {
 
+    Article article = articles // id가 1번인 게시물이 앞에서 3번째
+        .stream()
+        .filter(a -> a.getId() == id)
+        .findFirst()
+        .orElse(null); //반복문
+
+    if(article == null){
+      return "%d번 게시물은 존재하지 않습니다.".formatted(id);
+    }
+    articles.remove(article);
+
+    return "%d번 게시물이 삭제되었습니다.".formatted(article.getId());
+  }
 
 }
