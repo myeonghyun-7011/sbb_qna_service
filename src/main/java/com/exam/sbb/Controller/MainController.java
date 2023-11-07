@@ -2,6 +2,7 @@ package com.exam.sbb.Controller;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -111,19 +112,27 @@ public class MainController {
     return p;
   }
 
-  @GetMapping("/addPerson")
+  // 액션 메서드
+  @GetMapping("/addPerson/{id}")
   @ResponseBody
   public Person addPerson(Person p) {
     return p;
   }
 
+// 실행안됨
   @AllArgsConstructor
+  @NoArgsConstructor
   @Getter
   @Setter
   private class Person {
     private int id;
     private int age;
     private String name;
+
+    public Person(int age, String name) {
+      this.age = age;
+      this.name = name;
+    }
   }
 
 
