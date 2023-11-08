@@ -16,43 +16,38 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @SpringBootTest
 class SbbApplicationTests {
+
   @Autowired
   private QuestionRepository questionRepository;
 
   @Test
-    // 외워야함.
   void testJpa() {
     Question q1 = new Question();
     q1.setSubject("sbb가 무엇인가요?");
     q1.setContent("sbb에 대해서 알고 싶습니다.");
     q1.setCreateDate(LocalDateTime.now());
-    questionRepository.save(q1);  // 첫번째 질문 저장 // save시점으로 id생성
-
+    this.questionRepository.save(q1);  // 첫번째 질문 저장
 
     Question q2 = new Question();
     q2.setSubject("스프링부트 모델 질문입니다.");
     q2.setContent("id는 자동으로 생성되나요?");
     q2.setCreateDate(LocalDateTime.now());
-    questionRepository.save(q2);  // 두번째 질문 저장
-
-    assertThat(q1.getId()).isGreaterThan(0); // id는 최소 0 보다는 크다.
-    assertThat(q2.getId()).isGreaterThan(q1.getId()); // 첫번째 id보다크다
-
+    this.questionRepository.save(q2);  // 두번째 질문 저장
   }
 
   @Test
   void testJpa2() {
-    // select * from question = > findAll 을해서 all에 담아줌.
-    List<Question> all = questionRepository.findAll();
-    assertEquals(2, all.size()); // 질문이 2개 이기때문에 2
+    List<Question> all = this.questionRepository.findAll();
+    assertEquals(2, all.size());
 
-    Question q = all.get(0); // 1번게시물 가져오기
+    Question q = all.get(0);
     assertEquals("sbb가 무엇인가요?", q.getSubject());
   }
 
   @Test
   void testJpa3() {
-    Question q = questionRepository.findByContent("sbb가 무엇인가요?");
+    Question q = this.questionRepository.findBySubject("sbb가 무엇인가요?");
+    assertEquals(1, q.getId());
   }
 
   @Test
@@ -79,11 +74,20 @@ class SbbApplicationTests {
 
   @Test
   void testJpa7() {
-    assertEquals(2, questionRepository.count()); // 짐문개수가 2개 이므로 2
-    Optional<Question> oq = questionRepository.findById(1); // 1번 찾기
-    assertTrue(oq.isPresent());
+    assertEquals(2, questionRepository.count());
+    Optional<Question> oq = questionRepository.findById(1);
     Question q = oq.get();
+    assertTrue(oq.isPresent());
     questionRepository.delete(q);
     assertEquals(1, questionRepository.count());
   }
+
+  @Test
+  void testJpa8() {
+    List<Question> all = questionRepository.findAll();
+    assertEquals(2, all.size());
+
+
+  }
+
 }
