@@ -13,7 +13,7 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
-class QuestionApplicationTests {
+class QuestionRepositoryTests {
 
   @Autowired
   private QuestionRepository questionRepository;
@@ -24,16 +24,8 @@ class QuestionApplicationTests {
   void beforeEach() {
     clearData(); //data를 전부 날려버릴 함수.
     createSampleData(); // data생성.
-
   }
-
-  private void clearData() {
-    questionRepository.disableForeignKeyChecks(); //foreign key를 비활성화 시킴
-    questionRepository.truncate(); //테이블 삭제 데이터전부
-    questionRepository.enableForeignKeyChecks(); //foreign key를 활성화 시킴
-  }
-
-  private void createSampleData() {
+  public static int createSampleData(QuestionRepository questionRepository) {
     Question q1 = new Question();
     q1.setSubject("sbb가 무엇인가요?");
     q1.setContent("sbb에 대해서 알고 싶습니다.");
@@ -46,7 +38,19 @@ class QuestionApplicationTests {
     q2.setCreateDate(LocalDateTime.now());
     questionRepository.save(q2);  // 두번째 질문 저장
 
-    lastSampleDataId = q2.getId();
+    return q2.getId();
+  }
+  private void createSampleData() {
+    lastSampleDataId = createSampleData(questionRepository);
+  }
+  public static void clearData(QuestionRepository questionRepository) {
+    questionRepository.disableForeignKeyChecks();
+    questionRepository.truncate();
+    questionRepository.enableForeignKeyChecks();
+  }
+
+  private void clearData() {
+    clearData(questionRepository);
   }
 
   @Test
@@ -77,9 +81,10 @@ class QuestionApplicationTests {
     Question q = questionRepository.findById(1).get();
     questionRepository.delete(q);
 
-    assertThat(questionRepository.count()).isEqualTo(lastSampleDataId - 1) ;
+    assertThat(questionRepository.count()).isEqualTo(lastSampleDataId - 1);
 
   }
+
   @Test
   void 수정() {
     Question q = questionRepository.findById(1).get();

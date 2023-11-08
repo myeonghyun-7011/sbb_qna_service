@@ -12,7 +12,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import java.time.LocalDateTime;
 
 @SpringBootTest
-public class AnswerApplicationTests {
+public class AnswerRepositoryTests {
 
   @Autowired // 답변에대한 질문 객체가 있어야만 실행가능함.
   private QuestionRepository questionRepository;
@@ -25,19 +25,16 @@ public class AnswerApplicationTests {
   void beforeEach() {
     clearData(); //data를 전부 날려버릴 함수.
     createSampleData(); // data생성.
-
   }
-
   private void clearData() {
+    QuestionRepositoryTests.clearData(questionRepository);
     questionRepository.disableForeignKeyChecks(); //foreign key를 비활성화 시킴
     answerRepository.truncate(); //테이블 삭제 데이터전부
     questionRepository.enableForeignKeyChecks(); //foreign key를 활성화 시킴
   }
-
   private void createSampleData() {
-
+   QuestionRepositoryTests.createSampleData(questionRepository);
   }
-
   @Test
   void 저장() {
     Question q = questionRepository.findById(2).get();
