@@ -21,7 +21,7 @@ public class Answer {
   private LocalDateTime createDate;
 
   @ManyToOne // 1(질문):M(답변) // 필수 작성
-  @JoinColumn(foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
+ // @JoinColumn(foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
   private Question question; //조인
 
 
