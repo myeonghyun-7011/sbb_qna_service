@@ -38,12 +38,13 @@ class QuestionRepositoryTests {
     q2.setCreateDate(LocalDateTime.now());
     questionRepository.save(q2);  // 두번째 질문 저장
 
-    return q2.getId();
+    return q2.getId(); // 마지막 번호를 가져오기위한 리턴
   }
   private void createSampleData() {
     lastSampleDataId = createSampleData(questionRepository);
   }
   public static void clearData(QuestionRepository questionRepository) {
+    // answer에서 가져다 써야하기 때문에 static 사용.
     questionRepository.disableForeignKeyChecks();
     questionRepository.truncate();
     questionRepository.enableForeignKeyChecks();

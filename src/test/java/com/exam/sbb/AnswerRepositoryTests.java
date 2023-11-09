@@ -27,13 +27,15 @@ public class AnswerRepositoryTests {
     createSampleData(); // data생성.
   }
   private void clearData() {
-    QuestionRepositoryTests.clearData(questionRepository);
+    QuestionRepositoryTests.clearData(questionRepository); //질문 리셋
+
     questionRepository.disableForeignKeyChecks(); //foreign key를 비활성화 시킴
     answerRepository.truncate(); //테이블 삭제 데이터전부
     questionRepository.enableForeignKeyChecks(); //foreign key를 활성화 시킴
   }
   private void createSampleData() {
-   QuestionRepositoryTests.createSampleData(questionRepository);
+    //createSampleData 중복을 제거하기위해 사용 하지만 QuestionRepositoryTests 본사직원이 아님(static이아님)
+   QuestionRepositoryTests.createSampleData(questionRepository); // 질문 생성
   }
   @Test
   void 저장() {
