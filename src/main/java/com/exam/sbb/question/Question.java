@@ -30,4 +30,9 @@ public class Question {
   // mapby는  question 칼럼과 관련.
   // 작성해도되고 안해도됨. cascade 연쇄효과(그 질문행을 지우면 답변 데이터도 지워짐.)
   private List<Answer> answerList = new ArrayList<>();
+
+  public void addAnswer(Answer answer) {
+    answer.setQuestion(this);
+    getAnswerList().add(answer);
+  }
 }
