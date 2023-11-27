@@ -5,6 +5,7 @@ import lombok.Data;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -28,5 +29,5 @@ public class Question {
   // onetomany는 fetch 타입은 lazy가 맞지만 eager(즉시로딩)로 바꿔줌.
   // mapby는  question 칼럼과 관련.
   // 작성해도되고 안해도됨. cascade 연쇄효과(그 질문행을 지우면 답변 데이터도 지워짐.)
-  private List<Answer> answerList;
+  private List<Answer> answerList = new ArrayList<>();
 }
