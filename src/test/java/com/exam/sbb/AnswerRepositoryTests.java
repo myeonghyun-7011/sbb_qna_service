@@ -55,6 +55,7 @@ public class AnswerRepositoryTests {
   @Test
   void 저장() {
     Question q = questionRepository.findById(2).get();
+
     Answer a = new Answer();
     a.setContent("네 자동으로 생성됩니다.");
     a.setQuestion(q);  // 어떤 질문의 답변인지 알기위해서 Question 객체가 필요하다.
@@ -64,7 +65,16 @@ public class AnswerRepositoryTests {
   @Test
   void 조회() {
     Answer a = answerRepository.findById(1).get();
+
     assertThat(a.getContent()).isEqualTo("sbb는 질문답변 게시판입니다.");
 
+  }
+
+  @Test
+  void 관련된_question_조회() {
+    Answer a = answerRepository.findById(1).get();
+    Question q = a.getQuestion();
+
+    assertThat(q.getId()).isEqualTo(1);
   }
 }
