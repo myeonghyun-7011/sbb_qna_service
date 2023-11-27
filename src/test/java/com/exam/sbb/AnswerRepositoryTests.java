@@ -89,6 +89,9 @@ public class AnswerRepositoryTests {
     Question q = questionRepository.findById(1).get();
     // DB 연결이 끊김.
 
+    questionRepository.findById(3);
+    questionRepository.findById(3);
+
     //select * from answer where question_id = 1;
     List<Answer> answerList = q.getAnswerList();
 
