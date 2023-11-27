@@ -38,7 +38,9 @@ public class AnswerRepositoryTests {
   private void createSampleData() {
     QuestionRepositoryTests.createSampleData(questionRepository);
 
+    // 관련 답변이 하나도 없는 상태에서 쿼리 발생
     Question q = questionRepository.findById(1).get();
+    System.out.println("q 1st : " + q);
 
     Answer a1 = new Answer();
     a1.setContent("sbb는 질문답변 게시판입니다.");
@@ -87,16 +89,19 @@ public class AnswerRepositoryTests {
   void question으로부터_관련된_질문들_조회() {
     // select * from question Where id =1; 실행됨.
     Question q = questionRepository.findById(1).get();
+    System.out.println("q 2nd : " + q);
+
     // DB 연결이 끊김.
+    q = questionRepository.findById(1).get();
 
     questionRepository.findById(3);
     questionRepository.findById(3);
 
     //select * from answer where question_id = 1;
-    List<Answer> answerList = q.getAnswerList();
+     List<Answer> answerList = q.getAnswerList();
 
-    assertThat(answerList.size()).isEqualTo(2);
-    assertThat(answerList.get(0).getContent()).isEqualTo("sbb는 질문답변 게시판입니다.");
+     assertThat(answerList.size()).isEqualTo(2);
+     assertThat(answerList.get(0).getContent()).isEqualTo("sbb는 질문답변 게시판입니다.");
   }
 
 }
