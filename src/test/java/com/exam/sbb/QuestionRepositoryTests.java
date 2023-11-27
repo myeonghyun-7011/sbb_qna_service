@@ -34,10 +34,12 @@ class QuestionRepositoryTests {
     return q2.getId();
   }
   private void createSampleData() {
+
     lastSampleDataId = createSampleData(questionRepository);
   }
 
   public static void clearData(QuestionRepository questionRepository) {
+    questionRepository.deleteAll(); // DELETE FROM quesion;
     questionRepository.truncateTable();
   }
 
