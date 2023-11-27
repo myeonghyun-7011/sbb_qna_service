@@ -1,11 +1,14 @@
-<!DOCTYPE html>
-<html lang="ko">
-<head>
-  <meta charset="UTF-8">
-  <title> Q&A 서비스</title>
-</head>
-<body>
-  <h1>Hello 스프링부트</h1>
-
-</body>
-</html>
+<table>
+  <thead>
+  <tr>
+    <th>제목</th>
+    <th>작성일시</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr th:each="question : ${questionList}">
+    <td th:text="${question.subject}"></td>
+    <td th:text="${question.createDate}"></td>
+  </tr>
+  </tbody>
+</table>
