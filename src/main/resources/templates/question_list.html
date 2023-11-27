@@ -18,10 +18,11 @@
       [[${question.id}]]
     </td>
     <td>
-      [[${question.subject}]]
+      <a th:href="@{|/question/detail/${question.id}}" th:text="${question.subject}"></a>
+
     </td>
     <td>
-      [[|Date : ${#strings.substring(question.createDate, 0, 10)}]]
+      <a th:text="|Date : ${#strings.substring(question.createDate, 2, 16)}"></a>
     </td>
 
   </tr>
