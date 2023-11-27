@@ -25,7 +25,7 @@ public class Question {
 
   private LocalDateTime createDate;
 
-  @OneToMany(mappedBy = "question", cascade = CascadeType.REMOVE)
+  @OneToMany(mappedBy = "question", cascade = {CascadeType.ALL})
   // onetomany는 fetch 타입은 lazy가 맞지만 eager(즉시로딩)로 바꿔줌.
   // mapby는  question 칼럼과 관련.
   // 작성해도되고 안해도됨. cascade 연쇄효과(그 질문행을 지우면 답변 데이터도 지워짐.)
