@@ -12,29 +12,31 @@
   <!-- Bootstrap CSS -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.0.2/css/bootstrap.min.css">
 
+  <!-- Bootstrap JS -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.min.js"></script>
+
   <!-- 공통 CSS 연결 -->
   <link rel="stylesheet" type="text/css" th:href="@{/style.css}">
   <title>Q&A 서비스</title>
 </head>
 <body style="min-height:100vh;" class="d-flex flex-column">
 
-<header class="header">
-  <div class="container py-3 d-flex">
-    <a th:href="@{/}" class="logo">메인 페이지</a>
-    <div class="flex-grow-1"></div>
-
-    <nav class="menu1-1">
-      <ul class="d-flex gap-3" >
-        <li>
-          <a th:href="@{/question/list}">질문 리스트</a>
-        </li>
-        <li>
-          <a href="#">마이페이지</a>
-        </li>
+<nav class="navbar navbar-expand-lg navbar-light bg-dark border-bottom">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="/">SBB</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse justify-content-center " id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0 ">
+        <li><a class="nav-link text-light font-weight-bold px-3" href="#">로그인</a></li>
+        <li><a class="nav-link text-light font-weight-bold px-3" href="#">회원가입</a></li>
+        <li><a class="nav-link text-light font-weight-bold px-3" th:href="@{/question/list}">게시물 리스트</a></li>
       </ul>
-    </nav>
+    </div>
   </div>
-</header>
+</nav>
 <!-- 기본 템플릿 안에 삽입될 내용 Start -->
 
 <main class="flex-grow-1">
