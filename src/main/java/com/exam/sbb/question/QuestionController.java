@@ -49,14 +49,20 @@ public class QuestionController {
   }
   @PostMapping("/create") // 2. 등록폼 제출 빈내용이면 다시 롤백/ 내용 다들어오면 컴밋
   public String questionCreate(Model model, QuestionForm questionForm) {
+    boolean hasError = false;
 
-    if (questionForm.getSubject() == null || questionForm.getContent().trim().length() == 0) {
-      model.addAttribute("errorMsg", "제목 좀...");
-      return "question_form";
+    if (questionForm.getSubject() == null || questionForm.getSubject().trim().length() == 0) {
+      model.addAttribute("subjectErrorMsg", "제목 좀...");
+      hasError = true;
     }
 
-    if (questionForm.getContent() == null || questionForm.getSubject().trim().length() == 0) {
-      model.addAttribute("errorMsg", "내용 좀...");
+    if (questionForm.getContent() == null || questionForm.getContent().trim().length() == 0) {
+      model.addAttribute("contentErrorMsg", "내용 좀...");
+      hasError = true;
+    }
+
+    if(hasError) {
+      model.addAttribute("questionForm",questionForm);
       return "question_form";
     }
     questionService.create(questionForm.getSubject(), questionForm.getContent());
