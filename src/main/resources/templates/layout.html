@@ -12,7 +12,23 @@
   <title>Q&A 서비스</title>
 </head>
 <body>
-<h1>상단</h1>
+<header class="header">
+  <div class="container py-3 d-flex">
+    <a th:href="@{/}" class="logo">메인 페이지</a>
+    <div class="flex-grow-1"></div>
+
+    <nav class="menu1-1">
+      <ul class="d-flex gap-3" >
+        <li>
+          <a th:href="@{/question/list}">질문 리스트</a>
+        </li>
+        <li>
+          <a href="#">마이페이지</a>
+        </li>
+      </ul>
+    </nav>
+  </div>
+</header>
 <!-- 기본 템플릿 안에 삽입될 내용 Start -->
 
 <th:block layout:fragment="content"></th:block>
@@ -20,6 +36,10 @@
 <!-- 기본 템플릿 안에 삽입될 내용 End -->
 
 
-<h1>하단</h1>
+<footer class="footer">
+  <div class="container d-flex justify-content-center">
+    copyright(c) 2023 SBB KOREA All rights reserved
+  </div>
+</footer>
 </body>
 </html>
