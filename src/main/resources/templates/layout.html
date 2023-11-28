@@ -16,7 +16,8 @@
   <link rel="stylesheet" type="text/css" th:href="@{/style.css}">
   <title>Q&A 서비스</title>
 </head>
-<body>
+<body style="min-height:100vh;" class="d-flex flex-column">
+
 <header class="header">
   <div class="container py-3 d-flex">
     <a th:href="@{/}" class="logo">메인 페이지</a>
@@ -36,13 +37,15 @@
 </header>
 <!-- 기본 템플릿 안에 삽입될 내용 Start -->
 
-<th:block layout:fragment="content"></th:block>
+<main class="flex-grow-1">
+  <th:block layout:fragment="content"></th:block>
+</main>
 
 <!-- 기본 템플릿 안에 삽입될 내용 End -->
 
 
-<footer class="footer">
-  <div class="container d-flex justify-content-center">
+<footer class="footer bg-dark text-light">
+  <div class="container py-3 d-flex justify-content-center">
     copyright(c) 2023 SBB KOREA All rights reserved
   </div>
 </footer>
