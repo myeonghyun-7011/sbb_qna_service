@@ -24,7 +24,6 @@ public class QuestionController {
   private final QuestionService questionService; // QuestionService 생성
 
 
-
   @GetMapping("/list")
   // 이 자리에 @ResponseBody가 없으면 resources/templates/question_list.html 파일을 뷰로 삼는다.
   public String list(Model model) { // model 외워야함.
@@ -43,13 +42,24 @@ public class QuestionController {
 
     return "question_detail";
   }
-  @GetMapping("/create")
+
+  @GetMapping("/create") //1. 등록폼 내용을 받아옴.
   public String questionCreate() {
     return "question_form";
   }
-  @PostMapping("/create")
-  public String questionCreate(String subject, String content) {
-    questionService.create(subject, content);
+  @PostMapping("/create") // 2. 등록폼 제출 빈내용이면 다시 롤백/ 내용 다들어오면 컴밋
+  public String questionCreate(Model model, QuestionForm questionForm) {
+
+    if (questionForm.getSubject() == null || questionForm.getContent().trim().length() == 0) {
+      model.addAttribute("errorMsg", "제목 좀...");
+      return "question_form";
+    }
+
+    if (questionForm.getContent() == null || questionForm.getSubject().trim().length() == 0) {
+      model.addAttribute("errorMsg", "내용 좀...");
+      return "question_form";
+    }
+    questionService.create(questionForm.getSubject(), questionForm.getContent());
     return "redirect:/question/list"; // 질문 저장후 질문목록으로 이동
   }
 
