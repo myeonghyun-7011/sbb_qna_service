@@ -1,5 +1,6 @@
 package com.exam.sbb.question;
 
+import com.exam.sbb.answer.AnswerForm;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -37,11 +38,10 @@ public class QuestionController {
   }
 
   @GetMapping(value = "/detail/{id}")
-  public String detail(Model model, @PathVariable int id) {
+  public String detail(Model model, @PathVariable int id, AnswerForm answerForm) {
     Question question = questionService.getQuestion(id);
 
     model.addAttribute("question", question);
-
     return "question_detail";
   }
 
@@ -55,7 +55,6 @@ public class QuestionController {
 
     if(bindingResult.hasErrors()) {
       return "question_form";
-
     }
 
     questionService.create(questionForm.getSubject(), questionForm.getContent());
