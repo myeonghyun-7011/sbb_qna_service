@@ -5,9 +5,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.List;
 
+@RequestMapping("/question") //  url question 사용 중복제거
 @Controller
 @RequiredArgsConstructor // 생성자 주입
 // 컨트롤러는 Repository가 있는지 몰라야한다.
@@ -25,7 +27,7 @@ public class QuestionController {
 
 
 
-  @GetMapping("/question/list")
+  @GetMapping("/list")
   // 이 자리에 @ResponseBody가 없으면 resources/templates/question_list.html 파일을 뷰로 삼는다.
   public String list(Model model) { // model 외워야함.
     List<Question> questionList = questionService.getList();
@@ -35,7 +37,7 @@ public class QuestionController {
     return "question_list";
   }
 
-  @GetMapping(value = "/question/detail/{id}")
+  @GetMapping(value = "/{id}")
   public String detail(Model model, @PathVariable int id) {
     Question question = questionService.getQuestion(id);
 
