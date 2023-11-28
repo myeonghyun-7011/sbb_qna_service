@@ -38,7 +38,7 @@ public class QuestionService {
   }
 
   public Page<Question> getList(int page) {
-    Pageable pageable = PageRequest.of(page, 10);
+    Pageable pageable = PageRequest.of(page, 10); // 한 페이지에 게시물 10까지 가능
     return this.questionRepository.findAll(pageable);
   }
 
