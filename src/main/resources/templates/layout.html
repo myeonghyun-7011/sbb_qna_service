@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.0.2/css/bootstrap.min.css">
+
+  <!-- 공통 CSS 연결 -->
+  <link rel="stylesheet" type="text/css" th:href="@{/style.css}">
+  <title>Q&A 서비스</title>
+</head>
+<body>
+<h1>상단</h1>
+<!-- 기본 템플릿 안에 삽입될 내용 Start -->
+
+<th:block layout:fragment="content"></th:block>
+
+<!-- 기본 템플릿 안에 삽입될 내용 End -->
+
+
+<h1>하단</h1>
+</body>
+</html>
