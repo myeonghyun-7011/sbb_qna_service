@@ -3,8 +3,10 @@ package com.exam.sbb.question;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RequestMapping("/question") //  url question 사용 중복제거
@@ -44,27 +46,18 @@ public class QuestionController {
   }
 
   @GetMapping("/create") //1. 등록폼 내용을 받아옴.
-  public String questionCreate() {
+  public String questionCreate(QuestionForm questionForm) {
     return "question_form";
   }
   @PostMapping("/create") // 2. 등록폼 제출 빈내용이면 다시 롤백/ 내용 다들어오면 컴밋
-  public String questionCreate(Model model, QuestionForm questionForm) {
-    boolean hasError = false;
+  public String questionCreate(Model model, @Valid QuestionForm questionForm, BindingResult bindingResult) {
+  //BindingResult 결과내에 모든 오류 메세지 출력
 
-    if (questionForm.getSubject() == null || questionForm.getSubject().trim().length() == 0) {
-      model.addAttribute("subjectErrorMsg", "제목 좀...");
-      hasError = true;
-    }
-
-    if (questionForm.getContent() == null || questionForm.getContent().trim().length() == 0) {
-      model.addAttribute("contentErrorMsg", "내용 좀...");
-      hasError = true;
-    }
-
-    if(hasError) {
-      model.addAttribute("questionForm",questionForm);
+    if(bindingResult.hasErrors()) {
       return "question_form";
+
     }
+
     questionService.create(questionForm.getSubject(), questionForm.getContent());
     return "redirect:/question/list"; // 질문 저장후 질문목록으로 이동
   }
