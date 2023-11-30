@@ -11,7 +11,6 @@ public class UserServiceTests {
   @Autowired
   private UserService userService;
 
-
   @Test
   @DisplayName("회원가입이 가능하다.")
   public void t1() {

@@ -17,42 +17,19 @@
 
   <!-- 공통 CSS 연결 -->
   <link rel="stylesheet" type="text/css" th:href="@{/style.css}">
-
   <title>Q&A 서비스</title>
 </head>
 <body style="min-height:100vh;" class="d-flex flex-column">
 
-<header>
-  <nav class="navbar navbar-expand-lg navbar-light bg-dark border-bottom">
-    <div class="container-fluid">
-      <a class="navbar-brand text-light font-weight-bold px-3" href="/">SBB</a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
-              aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse justify-content-center " id="navbarSupportedContent">
-        <ul class="navbar-nav me-auto mb-2 mb-lg-0 ">
-          <li><a class="nav-link text-light font-weight-bold px-3" th:href="@{/question/login}">로그인</a></li>
-          <li><a class="nav-link text-light font-weight-bold px-3" href="#">회원가입</a></li>
-          <li><a class="nav-link text-light font-weight-bold px-3" th:href="@{/question/list}">게시물 리스트</a></li>
-        </ul>
-      </div>
-    </div>
-  </nav>
-</header>
+<!-- 네비게이션바 -->
+<nav th:replace="~{navbar :: navbarFragment}"></nav>
+
 <!-- 기본 템플릿 안에 삽입될 내용 Start -->
-
-<main class="flex-grow-1">
-  <th:block layout:fragment="content"></th:block>
-</main>
-
+<th:block layout:fragment="content"></th:block>
 <!-- 기본 템플릿 안에 삽입될 내용 End -->
 
+<!-- Bootstrap JS -->
+<script th:src="@{/bootstrap.min.js}"></script>
 
-<footer class="footer bg-dark text-light">
-  <div class="container py-3 d-flex justify-content-center">
-    copyright(c) 2023 SBB KOREA All rights reserved
-  </div>
-</footer>
 </body>
 </html>
