@@ -41,7 +41,7 @@ public class AnswerRepositoryTests {
     QuestionRepositoryTests.createSampleData(questionRepository);
 
     // 관련 답변이 하나도 없는 상태에서 쿼리 발생
-    Question q = questionRepository.findById(1).get();
+    Question q = questionRepository.findById(Math.toIntExact(1L)).get();
 
     Answer a1 = new Answer();
     a1.setContent("sbb는 질문답변 게시판입니다.");
@@ -62,7 +62,7 @@ public class AnswerRepositoryTests {
   @Transactional
   @Rollback(false)
   void 저장() {
-    Question q = questionRepository.findById(2).get();
+    Question q = questionRepository.findById(Math.toIntExact(2L)).get();
 
     Answer a1 = new Answer();
     a1.setContent("네 자동으로 생성됩니다.");
@@ -81,7 +81,7 @@ public class AnswerRepositoryTests {
   @Transactional
   @Rollback(false)
   void 조회() {
-    Answer a = answerRepository.findById(1).get();
+    Answer a = answerRepository.findById(Math.toIntExact(1L)).get();
 
     assertThat(a.getContent()).isEqualTo("sbb는 질문답변 게시판입니다.");
 
@@ -91,7 +91,7 @@ public class AnswerRepositoryTests {
   @Transactional
   @Rollback(false)
   void 관련된_question_조회() {
-    Answer a = answerRepository.findById(1).get();
+    Answer a = answerRepository.findById(Math.toIntExact(1L)).get();
     Question q = a.getQuestion();
 
     assertThat(q.getId()).isEqualTo(1);
@@ -102,7 +102,7 @@ public class AnswerRepositoryTests {
   @Rollback(false)
   void question으로부터_관련된_질문들_조회() {
     // select * from question Where id =1; 실행됨.
-    Question q = questionRepository.findById(1).get();
+    Question q = questionRepository.findById(Math.toIntExact(1L)).get();
     // DB 연결이 끊김.
 
     //select * from answer where question_id = 1;

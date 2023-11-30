@@ -20,7 +20,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 class QuestionRepositoryTests {
   @Autowired
   private QuestionRepository questionRepository;
-  private static int lastSampleDataId;
+  private static Long lastSampleDataId;
 
   @BeforeEach
   void beforeEach() {
@@ -28,7 +28,7 @@ class QuestionRepositoryTests {
     createSampleData();
   }
 
-  public static int createSampleData(QuestionRepository questionRepository) {
+  public static Long createSampleData(QuestionRepository questionRepository) {
     Question q1 = new Question();
     q1.setSubject("sbb가 무엇인가요?");
     q1.setContent("sbb에 대해서 알고 싶습니다.");
@@ -141,7 +141,7 @@ class QuestionRepositoryTests {
   @Test
   void Pageable() {
     // Pageable : 한 페이지에 몇개의 아이템이 나와야 하는지 + 현재 몇 페이지인지
-    Pageable pageable= PageRequest.of(0, lastSampleDataId);
+    Pageable pageable= PageRequest.of(0, Math.toIntExact(lastSampleDataId));
 
     Page<Question> page = questionRepository.findAll(pageable);
 
