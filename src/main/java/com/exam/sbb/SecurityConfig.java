@@ -24,7 +24,11 @@ public class SecurityConfig {
             .csrf((csrf) -> csrf
             .ignoringRequestMatchers(new AntPathRequestMatcher("/h2-console/**")))
             .headers((headers) -> headers
-            .addHeaderWriter(new XFrameOptionsHeaderWriter(XFrameOptionsHeaderWriter.XFrameOptionsMode.SAMEORIGIN)));
+            .addHeaderWriter(new XFrameOptionsHeaderWriter(XFrameOptionsHeaderWriter.XFrameOptionsMode.SAMEORIGIN)))
+            .formLogin((formLogin) -> formLogin // 내가 직접 로그인 폼음 구현 하겠다.
+            .loginPage("/user/login") // 스프링시큐리티 로그인 폼 url 해당 url로 사용.
+            .defaultSuccessUrl("/")); // 로그인 성공시 이동할 url
+
     return http.build();
   }
 
