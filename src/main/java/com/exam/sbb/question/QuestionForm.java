@@ -3,6 +3,7 @@ package com.exam.sbb.question;
 import lombok.Getter;
 import lombok.Setter;
 
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 
@@ -15,5 +16,8 @@ public class QuestionForm {
 
   @NotEmpty(message = "내용은 필수항목입니다.")
   private String content;
+
+  @NotBlank(message = "카테고리선택은 필수항목입니다.")
+  private String category;
 
 }
