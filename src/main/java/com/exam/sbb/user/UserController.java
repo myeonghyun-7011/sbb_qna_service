@@ -1,5 +1,9 @@
 package com.exam.sbb.user;
 
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -51,4 +55,53 @@ public class UserController {
   public String login() {
     return "login_form";
   }
+
+  @PostMapping("/login")
+  public String loginCheck(String id, String pwd, HttpServletRequest request,
+                           HttpServletResponse response, boolean rememberId) {
+    if(!idCheck(id,pwd)) {
+      return "redirect:/login";
+    }
+
+    HttpSession session = request.getSession();
+    session.setAttribute("id", id);
+
+    if(rememberId(rememberId)) {
+      Cookie cookie = new Cookie("id", id);
+      response.addCookie(cookie);
+    }else {
+      Cookie cookie = new Cookie("id", id);
+      cookie.setMaxAge(0);
+      response.addCookie(cookie);
+    }
+    return "redirect:/";
+  }
+
+  @GetMapping("/logout")
+  public String logout(HttpSession session) {
+    session.invalidate();
+    return "redirect:/";
+  }
+
+  private boolean idCheck(String id, String pwd) {
+    if (id.equals(id) && pwd.equals(pwd)) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  private boolean rememberId(boolean rememberId) {
+    return rememberId;
+  }
+  private boolean isLogin(HttpServletRequest request) {
+    HttpSession session = request.getSession();
+    if (session.getAttribute("id") == null) {
+      return false;
+    } else {
+      return true;
+    }
+  }
+
+
 }
