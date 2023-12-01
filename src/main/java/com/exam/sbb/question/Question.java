@@ -27,6 +27,9 @@ public class Question {
   private LocalDateTime createDate;
   private LocalDateTime modifyDate;
 
+  @Column(columnDefinition = "integer default 0", nullable = false)
+  private int view;
+
   @OneToMany(mappedBy = "question", cascade = CascadeType.ALL)
   private List<Answer> answerList = new ArrayList<>();
 

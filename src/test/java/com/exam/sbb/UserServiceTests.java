@@ -60,7 +60,6 @@ public class UserServiceTests {
   @Test
   @DisplayName("회원가입이 가능하다.")
   public void t1() {
-
     userService.create("user2", "user2@eamil.com", "1234");
   }
 

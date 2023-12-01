@@ -8,6 +8,7 @@
       <div class="col-6">
         <a th:href="@{/question/create}" class="btn btn-primary">질문 등록하기</a>
       </div>
+
       <div class="col-6">
         <form class="input-group">
           <input class="form-control" type="text" name="kw" placeholder="검색어를 입력해주세요." th:value="${param.kw}">
@@ -18,8 +19,9 @@
           <button type="submit" class="btn btn-outline-secondary">검색</button>
         </form>
       </div>
-    </div>
 
+    </div>
+    <!-- table text-center 테이블 전체 중앙 정렬 / 정의한 부분 제외하고  -->
     <table class="table text-center">
       <colgroup>
         <col>
@@ -31,11 +33,15 @@
           <th>제목</th>
           <th>작성자</th>
           <th>작성일시</th>
+          <th>조회수</th>
         </tr>
       </thead>
       <tbody>
         <tr th:each="question, loop : ${paging}">
+            <!--  게시물 번호        -->
           <td th:text="${question.id}"></td>
+
+              <!--  게시물 리스트 text-start 좌측 정렬 중앙 하고싶으면 center      -->
           <td class="text-start">
             <a th:href="@{|/question/detail/${question.id}|}" th:text="${question.subject}"></a>
             <span class="text-danger small ms-2"
@@ -43,13 +49,19 @@
                   th:text="${#lists.size(question.answerList)}">
             </span>
           </td>
-          <td>
-            <span th:text="${question.author?.username}"></span>
-          </td>
+
+            <!--  작성자  question.author 이면 username을 아니면 null   -->
+          <td><span th:text="${question.author?.username}"></span></td>
+
+            <!--  작성일자        -->
           <td th:text="${#temporals.format(question.createDate, 'yyyy-MM-dd HH:mm')}"></td>
+
+          <!--   조회수       -->
+          <td th:text="${question.view}"></td>
         </tr>
       </tbody>
     </table>
+
     <!-- 페이징처리 시작 -->
     <div th:if="${!paging.isEmpty()}">
       <ul class="pagination justify-content-center">

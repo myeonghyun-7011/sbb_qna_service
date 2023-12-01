@@ -13,8 +13,10 @@ import java.util.Set;
 @Setter
 @Entity
 public class Answer {
+
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @Column
   private int id;
 
   @Column(columnDefinition = "TEXT")

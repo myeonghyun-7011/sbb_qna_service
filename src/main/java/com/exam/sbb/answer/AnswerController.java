@@ -31,16 +31,17 @@ public class AnswerController {
   private final UserService userService;
 
   @PreAuthorize("isAuthenticated()")
+  // 실행 하기 전에 권한체크를 해라.
+  // 질문 리스트 들어가서 작성 누르면 로그인 페이지로 이동
+  // 로그인 되면 다시 질문 리스트로 자동으로 보내줌.
   @PostMapping("/create/{id}")
   public String createAnswer(Principal principal, Model model, @PathVariable int id, @Valid AnswerForm answerForm, BindingResult bindingResult) {
-
     Question question = questionService.getQuestion(id);
 
     if (bindingResult.hasErrors()) {
       model.addAttribute("question", question);
       return "question_detail";
     }
-
     SiteUser siteUser = userService.getUser(principal.getName());
     
     // 답변 등록 시작

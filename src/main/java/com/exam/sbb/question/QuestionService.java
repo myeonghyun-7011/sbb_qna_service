@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class QuestionService {
@@ -38,8 +39,15 @@ public class QuestionService {
   }
 
   public Question getQuestion(int id) throws DataNotFoundException {
-    return questionRepository.findById(id)
-        .orElseThrow(() -> new DataNotFoundException("no %d question not found".formatted(id)));
+    Optional<Question> question = this.questionRepository.findById(id); // Optional  예외 방지
+    if (question.isPresent()) { // 예외 방지중.
+      Question question1 = question.get();
+      question1.setView(question1.getView() + 1); // 질문을 찾았으면 그 질문에 +1 증가
+      this.questionRepository.save(question1); // 저장.
+      return question1;
+    } else {
+      throw new DataNotFoundException("question not found");
+    }
   }
 
   public void create(String subject, String content, SiteUser author) {
@@ -60,10 +68,12 @@ public class QuestionService {
     this.questionRepository.save(question);
   }
 
+  // 질문 삭제
   public void delete(Question question) {
     this.questionRepository.delete(question);
   }
 
+  // 질문 투표
   public void vote(Question question, SiteUser siteUser) {
     question.getVoter().add(siteUser);
     questionRepository.save(question);

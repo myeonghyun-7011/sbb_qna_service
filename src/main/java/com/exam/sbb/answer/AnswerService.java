@@ -17,7 +17,7 @@ public class AnswerService {
     Answer answer = new Answer();
     answer.setContent(content);
     answer.setCreateDate(LocalDateTime.now());
-    answer.setAuthor(author);
+    answer.setAuthor(author); // 질문에 대한 답변 작성자 저장.
     question.addAnswer(answer);
 
     answerRepository.save(answer);
@@ -27,18 +27,22 @@ public class AnswerService {
 
   public Answer getAnswer(Integer id) {
     return answerRepository.findById(id).orElseThrow(() -> new DataNotFoundException("answer not found"));
-  }
+  } // 답변을 찾아와라 -> 없으면 에러메세지 출력
 
+
+  // 답변 수정
   public void modify(Answer answer, String content) {
     answer.setContent(content);
     answer.setModifyDate(LocalDateTime.now());
     answerRepository.save(answer);
   }
 
+  // 답변 삭제
   public void delete(Answer answer) {
     answerRepository.delete(answer);
   }
 
+  // 추천
   public void vote(Answer answer, SiteUser siteUser) {
     answer.getVoter().add(siteUser);
     answerRepository.save(answer);

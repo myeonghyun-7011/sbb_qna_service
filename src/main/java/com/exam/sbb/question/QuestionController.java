@@ -54,13 +54,14 @@ public class QuestionController {
   }
 
   @PreAuthorize("isAuthenticated()") // 실행 하기 전에 권한체크를 해라.
-  @GetMapping("/create")
+  @GetMapping("/create") // question_form
   public String questionCreate(QuestionForm questionForm) {
     return "question_form";
   }
 
   @PreAuthorize("isAuthenticated()")
-  @PostMapping("/create")
+  @PostMapping("/create") // question_form 처리
+  //
   public String questionCreate(Principal principal, Model model, @Valid QuestionForm questionForm, BindingResult bindingResult) {
     SiteUser siteUser = userService.getUser(principal.getName());
 
