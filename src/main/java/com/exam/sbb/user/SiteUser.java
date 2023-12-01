@@ -1,14 +1,15 @@
 package com.exam.sbb.user;
 
+import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
-
-import javax.persistence.*;
 
 @Getter
 @Setter
 @Entity
-public class SiteUser { // class 이름을 user라 해도 상관x , 그런데 스프링 시큐리티는 user라는 클래스가 이미 정의되어있음.
+@NoArgsConstructor
+public class SiteUser { // class 이름을 user라 해도 상관x, 그런데 스프링 시큐리티는 user라는 클래스가 이미 정의되어 있다.
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,4 +22,8 @@ public class SiteUser { // class 이름을 user라 해도 상관x , 그런데 �
 
   @Column(unique = true)
   private String email;
+
+  public SiteUser(long id) {
+    this.id = id;
+  }
 }

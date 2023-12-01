@@ -1,9 +1,8 @@
 package com.exam.sbb.base;
 
+import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
-
-import javax.transaction.Transactional;
 
 public interface RepositoryUtil {
   @Modifying
@@ -16,14 +15,11 @@ public interface RepositoryUtil {
   @Query(value = "SET FOREIGN_KEY_CHECKS = 1", nativeQuery = true)
   void enableForeignKeyChecks();
 
-
   default void truncateTable() {
-    //disableForeignKeyChecks();
+    // disableForeignKeyChecks();
     truncate();
-    //enableForeignKeyChecks();
+    // enableForeignKeyChecks();
   }
 
   void truncate();
 }
-
-

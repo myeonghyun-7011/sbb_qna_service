@@ -1,11 +1,13 @@
 package com.exam.sbb.answer;
 
 import com.exam.sbb.question.Question;
+import com.exam.sbb.user.SiteUser;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -13,17 +15,20 @@ import java.time.LocalDateTime;
 public class Answer {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private Long id;
+  private int id;
 
   @Column(columnDefinition = "TEXT")
   private String content;
 
   private LocalDateTime createDate;
+  private LocalDateTime modifyDate;
 
-  @ManyToOne // 1(질문):M(답변) // 필수 작성
- // @JoinColumn(foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
-  private Question question; //조인
+  @ManyToOne
+  private Question question;
 
+  @ManyToOne
+  private SiteUser author;
 
+  @ManyToMany
+  Set<SiteUser> voter;
 }
-

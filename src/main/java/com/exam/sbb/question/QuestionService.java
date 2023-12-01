@@ -1,6 +1,7 @@
 package com.exam.sbb.question;
 
 import com.exam.sbb.DataNotFoundException;
+import com.exam.sbb.user.SiteUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -14,6 +15,7 @@ import java.util.List;
 
 @Service
 public class QuestionService {
+
   private final QuestionRepository questionRepository;
 
   @Autowired
@@ -21,31 +23,49 @@ public class QuestionService {
     this.questionRepository = questionRepository;
   }
 
-  public List<Question> getList() {
-    return questionRepository.findAll();
+  public Page<Question> getList(String kw, int page) {
+    List<Sort.Order> sorts = new ArrayList<>();
+    sorts.add(Sort.Order.desc("createDate"));
+    sorts.add(Sort.Order.desc("id"));
+
+    Pageable pageable = PageRequest.of(page, 10, Sort.by(sorts)); // 한 페이지에 게시물 10까지 가능
+
+    if(kw == null || kw.trim().length() == 0) {
+      return questionRepository.findAll(pageable);
+    }
+
+    return questionRepository.findDistinctBySubjectContainsOrContentContainsOrAuthor_usernameContainsOrAnswerList_contentContainsOrAnswerList_Author_usernameContains(kw, kw, kw, kw, kw, pageable);
   }
 
-  public Question getQuestion(int id) {
-    return  questionRepository.findById(id)
+  public Question getQuestion(int id) throws DataNotFoundException {
+    return questionRepository.findById(id)
         .orElseThrow(() -> new DataNotFoundException("no %d question not found".formatted(id)));
-
   }
 
-  public void create(String subject, String content) {
+  public void create(String subject, String content, SiteUser author) {
     Question q = new Question();
     q.setSubject(subject);
     q.setContent(content);
     q.setCreateDate(LocalDateTime.now());
-    questionRepository.save(q);
+    q.setAuthor(author);
+
+    this.questionRepository.save(q);
   }
 
-  public Page<Question> getList(int page) {
-    List<Sort.Order> sorts = new ArrayList<>();
-    sorts.add(Sort.Order.desc("createDate")); // 역순조회
-    sorts.add(Sort.Order.desc("id")); // 역순조회
+  public void modify(Question question, String subject, String content) {
+    question.setSubject(subject);
+    question.setContent(content);
+    question.setModifyDate(LocalDateTime.now());
 
-    Pageable pageable = PageRequest.of(page, 10, Sort.by(sorts)); // 한 페이지에 게시물 10까지 가능
-    return questionRepository.findAll(pageable);
+    this.questionRepository.save(question);
   }
 
+  public void delete(Question question) {
+    this.questionRepository.delete(question);
+  }
+
+  public void vote(Question question, SiteUser siteUser) {
+    question.getVoter().add(siteUser);
+    questionRepository.save(question);
+  }
 }

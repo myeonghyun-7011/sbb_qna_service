@@ -18,16 +18,17 @@ public class UserSecurityService implements UserDetailsService {
 
   private final UserRepository userRepository;
 
-  // 시큐리티가 특정 회원은 username을 받았을 때
+  // 시큐리티가 특정 회워은 username을 받았을 때
   // 그 username에 해당하는 회원정보를 얻는 수단.
   @Override
   public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+    System.out.println("UserDetails 실행됨 : " + username);
 
     SiteUser siteUser = userRepository.findByUsername(username).orElseThrow(() ->
         new UsernameNotFoundException("사용자를 찾을수 없습니다.")
-        );
+    );
 
-    // 권한(authorities)들을 담을 빈 리스트를 만든다.
+    // 권한들을 담을 빈 리스트를 만든다.
     List<GrantedAuthority> authorities = new ArrayList<>();
 
     if ("admin".equals(username)) {
@@ -36,7 +37,7 @@ public class UserSecurityService implements UserDetailsService {
       authorities.add(new SimpleGrantedAuthority(UserRole.USER.getValue()));
     }
 
-    // User는 시큐리티에서 작동하는 클래스.
+    // User는 시큐리티에서 작동하는 클래스
     return new User(siteUser.getUsername(), siteUser.getPassword(), authorities);
   }
 }
