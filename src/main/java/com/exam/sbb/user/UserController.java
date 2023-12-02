@@ -59,17 +59,17 @@ public class UserController {
   @PostMapping("/login")
   public String loginCheck(String id, String pwd, HttpServletRequest request,
                            HttpServletResponse response, boolean rememberId) {
-    if(!idCheck(id,pwd)) {
+    if (!idCheck(id, pwd)) {
       return "redirect:/login";
     }
 
     HttpSession session = request.getSession();
     session.setAttribute("id", id);
 
-    if(rememberId(rememberId)) {
+    if (rememberId(rememberId)) {
       Cookie cookie = new Cookie("id", id);
       response.addCookie(cookie);
-    }else {
+    } else {
       Cookie cookie = new Cookie("id", id);
       cookie.setMaxAge(0);
       response.addCookie(cookie);
@@ -94,6 +94,7 @@ public class UserController {
   private boolean rememberId(boolean rememberId) {
     return rememberId;
   }
+
   private boolean isLogin(HttpServletRequest request) {
     HttpSession session = request.getSession();
     if (session.getAttribute("id") == null) {
@@ -102,6 +103,4 @@ public class UserController {
       return true;
     }
   }
-
-
 }

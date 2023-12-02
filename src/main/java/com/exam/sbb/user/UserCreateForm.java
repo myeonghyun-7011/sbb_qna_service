@@ -27,7 +27,7 @@ public class UserCreateForm {
   private String email;
 
   @NotEmpty(message = "핸드폰 번호는 필수항목입니다.")
-  private String phoneNo;
+  private int phoneNo;
 
   @NotEmpty(message = "주소 필수항목입니다.")
   @Email

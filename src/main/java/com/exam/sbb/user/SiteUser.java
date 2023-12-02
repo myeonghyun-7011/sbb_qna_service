@@ -23,6 +23,12 @@ public class SiteUser { // class 이름을 user라 해도 상관x, 그런데 스
   @Column(unique = true)
   private String email;
 
+  @Column(unique = true)
+  private int phoneNo;
+
+  @Column(unique = true)
+  private String address;
+
   public SiteUser(long id) {
     this.id = id;
   }
